@@ -158,11 +158,9 @@ def gerar_resultados_consultas():
                 # 1-indexed
                 posicao = i
 
-                if (float(distancia) == 1.0):
-                    continue
+                if (float(distancia) != 1.0):
+                    resultados_consultas.append([ codigo_consulta, [posicao, doc_id, round(distancia, auxiliar.CASAS_DECIMAIS)]])
 
-                resultados_consultas.append([ codigo_consulta, [posicao, doc_id, round(distancia, auxiliar.CASAS_DECIMAIS)]])
-                #resultsWriter.writerow([codigo_consulta, [posicao, doc_id, round(distance, 3)]])
         logging.info('Fim da geração dos resultados das buscas')
     except:
         logging.info('Erro ao gerar os resultados das buscas')
