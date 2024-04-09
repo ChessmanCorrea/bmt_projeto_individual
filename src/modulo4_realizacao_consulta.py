@@ -109,6 +109,7 @@ def ler_consultas():
             reader = csv.reader(csvfile, delimiter=';')
             next(reader, None)  # O arquivo de consulta tem cabeçalho
             for linha in reader:
+                #codigo_consulta = int(linha[0]) # Pensar se realmente é necessário converter para inteiro. AUmenta o desempenho?
                 codigo_consulta = int(linha[0]) # Pensar se realmente é necessário converter para inteiro. AUmenta o desempenho?
                 vetor_valores = nltk.word_tokenize(linha[1],'english')
                 dicionario_consultas[codigo_consulta] = vetor_valores

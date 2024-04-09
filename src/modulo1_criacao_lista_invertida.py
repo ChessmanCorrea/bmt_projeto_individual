@@ -1,6 +1,11 @@
-# toolz
-# https://medium.com/@mschaid86/cleaning-up-python-code-with-the-toolz-library-40803f0c8303
-
+'''
+  - Este módulo tem como objetivo ler resumos de artigos contidos
+    em arquivos xml e gerar uma "lista invertida". Cada linha 
+    da lista mantém uma palavra (token) e um vetor contendo
+    os códigos dos documentos onde a palavra foi encontrada. 
+  
+  - As stopwords, números, acentos e outros símbolos são removidos.
+'''
 import os
 import logging
 import datetime
@@ -61,8 +66,7 @@ def ler_arvivos_xml():
             # Um nó do tipo registro representa um artigo, com número de registro e abstract
             resumo = ''
             for registro in raiz_xml.findall(CAMPO_REGISTRO):
-                codigo_documento = registro.find(CAMPO_NUMERO_REGISTRO).text
-                codigo_documento = codigo_documento.strip()
+                codigo_documento = registro.find(CAMPO_NUMERO_REGISTRO).text.strip()
                 registro_dados = registro.find(CAMPO_ABSTRACT)
                 if registro_dados is not None:
                     resumo = registro_dados.text

@@ -1,0 +1,10 @@
+
+result/consultas.csv
+result/lista_invertida.csv
+result/modulo4_busca.log
+result/modulo2_indexador.log
+result/modulo3_processamento_consulta.log
+result/modulo1_lista_invertida.log
+result/modelo_vetorial.csv
+result/esperados.csv
+/src/__pycache__

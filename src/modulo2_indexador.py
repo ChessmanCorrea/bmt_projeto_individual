@@ -44,7 +44,7 @@ def ler_arquivo_lista_intertida():
         with open(nome_arquivo_entrada, 'r') as arquivo_csv:
             reader = csv.reader(arquivo_csv, delimiter=';')
             for row in reader:
-                token = row[0].strip()
+                token = row[0]
                 codigos_documentos = row[1].lstrip('[').rstrip(']').replace("'", "").split(',')
                 lista_invertida[token] = codigos_documentos
         logging.info('Fim da leitura do arquivo da lista invertida')            
@@ -54,8 +54,11 @@ def ler_arquivo_lista_intertida():
 # ---------------------------------------------------------------------------------------------
 
 def obter_frequencia_palavra (palavra,codigo_documento):
-    frequencia = len([ codigo for codigo in lista_invertida[palavra] if codigo == codigo_documento] )
-    return(frequencia)
+    frequencia = 0
+    for codigo in lista_invertida[palavra]:
+        if codigo == codigo_documento:
+            frequencia=frequencia+1
+    return frequencia
 
 # ---------------------------------------------------------------------------------------------
 def gerar_modelo_vetorial():
@@ -84,7 +87,8 @@ def gerar_modelo_vetorial():
         
         for palavra, documentos_com_a_palavra in lista_invertida.items():
             # O uso do set tem como finalidade elimiar documentos repetidos
-            quantidade_documentos_palavra = len(set(documentos_com_a_palavra))
+            # quantidade_documentos_palavra = len(set(documentos_com_a_palavra)) .
+            quantidade_documentos_palavra = len(documentos_com_a_palavra) # É para contar mesmo as repetidas...
             frequencia_documentos[palavra] = math.log(quantidade_documentos/quantidade_documentos_palavra)
 
         #for i in range(len(lista_documentos)):
@@ -94,6 +98,7 @@ def gerar_modelo_vetorial():
             pesos_palavra = []
 
             for palavra in lista_palavras:
+                
                 idf = frequencia_documentos[palavra]
                 tf = obter_frequencia_palavra(palavra, codigo_documento)
 
