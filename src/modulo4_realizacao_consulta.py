@@ -15,14 +15,13 @@ nome_arquivo_modelo = ''
 nome_arquivo_consultas = ''
 nome_arquivo_saida = ''
 nome_arquivo_lista_invertida = ''
-modelo_vetorial = {} #docs_dict
+modelo_vetorial = {}
 dicionario_consultas = {}
 dicionario_termos_binarios_consultas = {}
 resultados_consultas = []
 
 termos_lista_invertida = []
 
-#def build_querie_vector(termos_consulta):
 def criar_vetor_consulta(termos_consulta):    
     vetor_termos_consulta = []
 
