@@ -136,10 +136,10 @@ def gerar_lista():
 
 # ---------------------------------------------------------------------------------------------
 def executar():
-    startTime = datetime.datetime.now()
+    hora_inicio = datetime.datetime.now()
     auxiliar.configurar_log('modulo1_lista_invertida.log')
     
-    logging.info("Geração da lista invertida iniciada em "+startTime.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("Geração da lista invertida iniciada em "+hora_inicio.strftime("%Y-%m-%d %H:%M:%S"))
     
     ler_configuracao()
     ler_arvivos_xml()
@@ -147,12 +147,12 @@ def executar():
     gerar_lista()
     auxiliar.gerar_arquico_cvs(nome_arquivo_saida,documentos_tokens)
     
-    endTime = datetime.datetime.now()
+    hora_fim = datetime.datetime.now()
     
-    time = endTime - startTime
+    tempo = hora_fim - hora_inicio
 
-    logging.info("Finalização da lista invertida em "+endTime.strftime("%Y-%m-%d %H:%M:%S"))
-    logging.info("Tempo de processamento: "+ str(time.seconds) + " segundos ("+str(time.microseconds)+" microsegundos)")
+    logging.info("Finalização da lista invertida em "+hora_fim.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("Tempo de processamento: "+ str(tempo.seconds) + " segundos ("+str(tempo.microseconds)+" microsegundos)")
     
     print ("fim do modulo 1")
         

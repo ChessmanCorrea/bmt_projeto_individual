@@ -90,9 +90,9 @@ def ler_modelo_vetorial():
         logging.info('Lendo motero vetorial.')
         with open(nome_arquivo_modelo, encoding="utf-8", mode='r') as csvfile:
             reader = csv.reader(csvfile, delimiter=';')
-            for row in reader:
-                codigo_documento = int(row[0])
-                vetor_valores = row[1].lstrip('[').rstrip(']').split(',')
+            for linha in reader:
+                codigo_documento = int(linha[0])
+                vetor_valores = linha[1].lstrip('[').rstrip(']').split(',')
                 modelo_vetorial[codigo_documento] = numpy.asarray(list(map(float, vetor_valores)))
 
         #print ('tamando do modelo vetorial: '+str(len(modelo_vetorial[codigo_documento])))
@@ -150,15 +150,15 @@ def gerar_resultados_consultas():
 
             distancias_documento_ordenadas = sorted(distancias_documento, key=lambda elem: elem[1])
 
-            for i, pair in enumerate(distancias_documento_ordenadas, start=1):
-                doc_id = pair[0]
-                distancia = pair[1]
+            for i, par_documento_distancia in enumerate(distancias_documento_ordenadas, start=1):
+                codigo_documento = par_documento_distancia[0]
+                distancia = par_documento_distancia[1]
 
                 # 1-indexed
                 posicao = i
 
                 if (float(distancia) != 1.0):
-                    resultados_consultas.append([ codigo_consulta, [posicao, doc_id, round(distancia, auxiliar.CASAS_DECIMAIS)]])
+                    resultados_consultas.append([ codigo_consulta, [posicao, codigo_documento, round(distancia, auxiliar.CASAS_DECIMAIS)]])
 
         logging.info('Fim da geração dos resultados das buscas')
     except:
@@ -169,10 +169,10 @@ def gerar_resultados_consultas():
 def executar():
     print ("Inicio do modulo 4")
 
-    startTime = datetime.datetime.now()
+    hora_inicio = datetime.datetime.now()
     auxiliar.configurar_log('modulo4_busca.log')
     
-    logging.info("\nExecução de consulta iniciada em "+startTime.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("\nExecução de consulta iniciada em "+hora_inicio.strftime("%Y-%m-%d %H:%M:%S"))
     
     print('configuracao')
     ler_configuracao()
@@ -195,12 +195,12 @@ def executar():
     print('gravação do arquivo')
     auxiliar.gerar_arquico_cvs(nome_arquivo_saida, resultados_consultas)
 
-    endTime = datetime.datetime.now()
+    hora_fim = datetime.datetime.now()
     
-    time = endTime - startTime
+    tempo = hora_fim - hora_inicio
 
-    logging.info("\nFinalização da consulta em "+endTime.strftime("%Y-%m-%d %H:%M:%S"))
-    logging.info("\nTempo de processamento: "+ str(time.seconds) + " segundos ("+str(time.microseconds)+" microsegundos)")
+    logging.info("\nFinalização da consulta em "+hora_fim.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("\nTempo de processamento: "+ str(tempo.seconds) + " segundos ("+str(tempo.microseconds)+" microsegundos)")
     
     print ("Fim do modulo 4")
     

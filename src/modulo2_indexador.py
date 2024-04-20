@@ -117,22 +117,22 @@ def gerar_modelo_vetorial():
 def executar():
     print ("Inicio do modulo 2")
 
-    startTime = datetime.datetime.now()
+    hora_inicio = datetime.datetime.now()
     auxiliar.configurar_log('modulo2_indexador.log')
     
-    logging.info("Geração da lista invertida iniciada em "+startTime.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("Geração da lista invertida iniciada em "+hora_inicio.strftime("%Y-%m-%d %H:%M:%S"))
     
     ler_configuracao()
     ler_arquivo_lista_intertida()
     gerar_modelo_vetorial()
     auxiliar.gerar_arquico_cvs(nome_arquivo_saida, matriz_termo_documento)
 
-    endTime = datetime.datetime.now()
+    hora_fim = datetime.datetime.now()
     
-    time = endTime - startTime
+    tempo = hora_fim - hora_inicio
 
-    logging.info("Finalização da lista invertida em "+endTime.strftime("%Y-%m-%d %H:%M:%S"))
-    logging.info("Tempo de processamento: "+ str(time.seconds) + " segundos ("+str(time.microseconds)+" microsegundos)")
+    logging.info("Finalização da lista invertida em "+hora_fim.strftime("%Y-%m-%d %H:%M:%S"))
+    logging.info("Tempo de processamento: "+ str(tempo.seconds) + " segundos ("+str(tempo.microseconds)+" microsegundos)")
     
     print ("Fim do modulo 2")
                 
