@@ -67,8 +67,14 @@ def processar_consultas():
             for item in consulta.find("Records").findall('Item'):
                 documento = item.text.strip()
                 score = item.attrib['score'].strip()
-                lista_documentos_esperados+=[[numero_consulta,documento,score]]
                 
+                quantidade_votos = 0
+                for caractere in score:
+                    if caractere != "0":
+                        quantidade_votos += 1
+                
+                lista_documentos_esperados+=[[numero_consulta,documento,quantidade_votos]]
+
         logging.info('Quantidade de consultas processadas '+str(len(dicionario_consultas)))
         logging.info('Quantidade de resultados esperados processados '+str(len(lista_documentos_esperados)))
     except:
