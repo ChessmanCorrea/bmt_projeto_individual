@@ -53,56 +53,57 @@ def ler_arquivo_lista_intertida():
 
 # ---------------------------------------------------------------------------------------------
 
-def obter_frequencia_palavra (palavra,codigo_documento):
-    frequencia = 0
-    for codigo in lista_invertida[palavra]:
-        if codigo == codigo_documento:
-            frequencia=frequencia+1
-    return frequencia
-
-# ---------------------------------------------------------------------------------------------
 def gerar_modelo_vetorial():
     try:
         logging.info('Gerando modelo vetorial')
-        lista_palavras = lista_invertida.keys()
-        lista_documentos = []
+        lista_termos = lista_invertida.keys()
+        frequencia_termos_documentos = {}
+        idf_termos = {}
     
         # Gera uma lista de documentos não repetidos
-        for documentos in lista_invertida.values():
+        for termo, documentos_com_o_termo in lista_invertida.items():
             
-            #documentos.sort()
-            #print ('ordenado')
-            #lista_documentos += [documentos[i] for i in range(len(documentos)-1) if documentos[i] != documentos[i+1]]
-            #lista_documentos.append(documentos[-1])
-            #print(lista_documentos)
-            
-            for documento in documentos:
-                if not documento in lista_documentos:
-                    lista_documentos.append(documento)
+            #Gera uma coleção de documentos com a frequência de cada termo
+            for documento in documentos_com_o_termo:
+                documento = documento.strip() #misteriosamente aparece um espaço no início do código do documento...
+                if documento in frequencia_termos_documentos:
+                    frequencia_termos_documentos[documento][termo]+=1
+                else:    
+                    frequencia_termos_documentos[documento]={}
+                    #inclui todos os termos na lista de termos do documento
+                    for termo_inclusao in lista_termos:
+                        frequencia_termos_documentos[documento][termo_inclusao]=0
+                    frequencia_termos_documentos[documento][termo]=1
+                        
+                        
     
-        # Calcula a frequência inversa das palavras (termos)
-        quantidade_documentos = len(lista_documentos)
+        # Calcula o IDF (a frequência inversa dos termos (palavras)
+        # IDF = log (quantidade_docummentos  / quantidade_documentos_com_o_termo)
         
-        frequencia_documentos = {}
+        quantidade_documentos = len(frequencia_termos_documentos)
         
-        for palavra, documentos_com_a_palavra in lista_invertida.items():
-            # O uso do set tem como finalidade elimiar documentos repetidos
-            # quantidade_documentos_palavra = len(set(documentos_com_a_palavra)) .
-            quantidade_documentos_palavra = len(documentos_com_a_palavra) # É para contar mesmo as repetidas...
-            frequencia_documentos[palavra] = math.log(quantidade_documentos/quantidade_documentos_palavra)
+        # Contar quantos documentos possuem o termo 
+        for termo, documentos_com_o_termo in lista_invertida.items():
+            # O uso do set tem como finalidade eliminar documentos repetidos, retornando a quantidade de documentos com o termo
+            quantidade_documentos_com_o_termo = len(set(documentos_com_o_termo));
+            idf_termos[termo] = math.log(quantidade_documentos/quantidade_documentos_com_o_termo)
+            
+            
 
         #for i in range(len(lista_documentos)):
         #    codigo_documento = lista_documentos[i]
-        for codigo_documento in lista_documentos:
+        for codigo_documento, frequencia_termos in frequencia_termos_documentos.items():
 
             pesos_palavra = []
 
-            for palavra in lista_palavras:
+            for termo in lista_termos:
                 
-                idf = frequencia_documentos[palavra]
-                tf = obter_frequencia_palavra(palavra, codigo_documento)
+                idf = idf_termos[termo]
+
+                tf = frequencia_termos[termo]/len(frequencia_termos)
 
                 tf_idf = round(tf * idf, auxiliar.CASAS_DECIMAIS)
+                
 
                 pesos_palavra.append(tf_idf)
 
@@ -112,6 +113,8 @@ def gerar_modelo_vetorial():
         
     except:
         logging.info('Erro ao gerar o modelo vetorial')
+
+
 
 # ---------------------------------------------------------------------------------------------
 def executar():
